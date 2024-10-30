@@ -84,7 +84,7 @@ def epo_optimize(img, population_size, iterations, chaotic_sequence_length):
                 population[i] = (new_x, new_y)
 
     # save the values in a file
-    with open("uaci_values_henon_20.txt", "w") as f:
+    with open(f"iteration1/uaci_values_henon_{population_size}_{iterations}.txt", "w") as f:
         for item in avg_uaci_values:
             f.write("%s\n" % item)
     return best_initial_values, best_uaci
@@ -117,10 +117,12 @@ def main():
 
     # Emperor Penguin Optimization with chaotic key generation (Henon Map)
     chaotic_sequence_length = height * width
+    # for i in range(3):
+        # for j in range(3):
     best_initial_values, best_uaci = epo_optimize(
         img,
-        population_size=10,
-        iterations=200,
+        population_size=10*(1),
+        iterations=50*(1),
         chaotic_sequence_length=chaotic_sequence_length,
     )
     print(

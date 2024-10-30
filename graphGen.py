@@ -6,43 +6,38 @@ def read_numbers_from_file(filename):
         numbers = [float(line.strip()) for line in file.readlines()]
     return numbers
 
-# Read numbers from file
-filename = 'iteration1/uaci_values_henon.txt'
-filename1 = 'iteration1/uaci_values_henon_20.txt'
-filename2 = 'iteration1/uaci_values_henon_30.txt'
-filename3 = 'iteration1/uaci_values_henon_10_100.txt'
-filename4 = 'iteration1/uaci_values_henon_10_150.txt'
-filename5 = 'iteration1/uaci_values_henon_10_200.txt'
-numbers = read_numbers_from_file(filename)
-numbers1 = read_numbers_from_file(filename1)
-numbers2 = read_numbers_from_file(filename2)
-numbers3 = read_numbers_from_file(filename3)
-numbers4 = read_numbers_from_file(filename4)
-numbers5 = read_numbers_from_file(filename5)[:-2:]
+population_sizes = [10, 20, 30]
+iterations = [50, 100, 150]
 
-# Generate x-values (just indices for each number)
-x_values = range(len(numbers))
-x_values1 = range(len(numbers1))
-x_values2 = range(len(numbers2))
-x_values3 = range(len(numbers3))
-x_values4 = range(len(numbers4))
-x_values5 = range(len(numbers5))
+# Plot the UACI values for different population sizes
+plt.figure(figsize=(12, 6))
+for population_size in population_sizes:
+    uaci_values = read_numbers_from_file(f"psnrVariations/psnr_values_lorenz_{population_size}_50.txt")
+    plt.plot(uaci_values, label=f'Population size: {population_size}')
+plt.xlabel("Iterations")
+plt.ylabel("Average UACI")
+plt.title("Average UACI values over iterations for different population sizes")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
 
-# Plot the numbers
-plt.plot(x_values, numbers, linestyle='-', color='g')
-# plt.plot(x_values1, numbers1, linestyle='-', color='r')
-# plt.plot(x_values2, numbers2, linestyle='-', color='g')
-plt.plot(x_values3, numbers3, linestyle='-', color='b')
-plt.plot(x_values4, numbers4, linestyle='-', color='y')
-plt.plot(x_values5, numbers5, linestyle='-', color='r')
+# Save the plot
+plt.savefig("psnr_values_lorenz_population_sizes.png")
 
-# a red line over 33.3333
-# plt.axhline(y=33.3333, color='r', linestyle='--')
+# Plot the UACI values for different numbers of iterations
+plt.figure(figsize=(12, 6))
+for iteration in iterations:
+    uaci_values = read_numbers_from_file(f"psnrVariations/psnr_values_lorenz_10_{iteration}.txt")
+    plt.plot(uaci_values, label=f'Iterations: {iteration}')
+plt.xlabel("Iterations")
+plt.ylabel("Average UACI")
+plt.title("Average UACI values over iterations for different numbers of iterations")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
 
-# Add labels and title
-plt.xlabel('iteration number iteration')
-plt.ylabel('best UACI value')
-plt.title('Graph of UACI values of henon system over iterations')
+# Save the plot
+plt.savefig("psnr_values_lorenz_iterations.png")
 
 # Show the plot
-plt.show()
+# plt.show()

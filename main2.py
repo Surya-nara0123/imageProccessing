@@ -6,20 +6,6 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 
-def calculate_psnr(original_image, compressed_image):
-    # Ensure both images have the same shape
-    if original_image.shape != compressed_image.shape:
-        raise ValueError("The images must have the same dimensions.")
-
-    mse = np.mean((original_image - compressed_image) ** 2)
-    
-    if mse == 0:
-        return float('inf')  # If MSE is 0, PSNR is infinite (perfect match)
-
-    max_pixel_value = 255.0  # Assuming 8-bit grayscale image
-    psnr = 20 * np.log10(max_pixel_value / np.sqrt(mse))
-    return psnr
-
 # Function to compute UACI between encrypted image and original image
 def calculate_uaci(encrypted_img1, img):
     height, width = img.shape
@@ -86,7 +72,7 @@ def epo_optimize(img, population_size, iterations, block_size):
                 population[i] = tweak
 
     # save the values in a file
-    with open("uaci_values_aes_30.txt", "w") as f:
+    with open(f"iteration1/uaci_values_aes_{population_size}_{iterations}.txt", "w") as f:
         for item in avg_uaci_values:
             f.write("%s\n" % item)
     return best_key, best_uaci
@@ -118,9 +104,12 @@ def main():
     currTime = time.time()
 
     # Emperor Penguin Optimization
-    best_key, best_uaci = epo_optimize(
-        img, population_size=10, iterations=200, block_size=block_size
-    )
+    for i in range(2, 3):
+        for j in range(2, 3):
+            if (i == 0 and j != 1) or (i == 1 and j != 0) or (i == 2 and j != 0):
+                best_key, best_uaci = epo_optimize(
+                    img, population_size=10*(i+1), iterations=50*(j+1), block_size=block_size
+                )
     print(f"Best key: {best_key.hex()}, Best UACI: {best_uaci}")
 
     # Encrypt and Decrypt the image using the best key

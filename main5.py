@@ -84,7 +84,7 @@ def epo_optimize(img, population_size, iterations, chaotic_sequence_length):
                 population[i] = (new_x, new_y, new_z)
 
     # save the values in a file
-    with open("uaci_values_lorenz_20.txt", "w") as f:
+    with open(f"uaci_values_lorenz_{population_size}_{iterations}.txt", "w") as f:
         for item in avg_uaci_values:
             f.write("%s\n" % item)
     return best_initial_values, best_uaci
@@ -113,7 +113,9 @@ def main():
 
     # Emperor Penguin Optimization with chaotic key generation (Lorenz System)
     chaotic_sequence_length = height * width
-    best_initial_values, best_uaci = epo_optimize(img, population_size=10, iterations=200, chaotic_sequence_length=chaotic_sequence_length)
+    for i in range(2, 3):
+        for j in range(2, 3):
+            best_initial_values, best_uaci = epo_optimize(img, population_size=10*(i+1), iterations=50*(j+1), chaotic_sequence_length=chaotic_sequence_length)
     print(f"Best initial values for Lorenz system: {best_initial_values}, Best UACI: {best_uaci}")
 
     # Generate the chaotic key using the best initial values

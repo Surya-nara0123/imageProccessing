@@ -79,7 +79,7 @@ def epo_optimize(img, population_size, iterations, chaotic_sequence_length):
     # plt.show()
     
     # save the values in a file
-    with open("uaci_values_logistic_maps_20.txt", "w") as f:
+    with open(f"iteration1/uaci_values_logistic_maps_{population_size}_{iterations}.txt", "w") as f:
         for item in avg_uaci_values:
             f.write("%s\n" % item)
     return best_initial_value, best_uaci
@@ -108,7 +108,10 @@ def main():
 
     # Emperor Penguin Optimization with chaotic key generation
     chaotic_sequence_length = height * width
-    best_initial_value, best_uaci = epo_optimize(img, population_size=10, iterations=200, chaotic_sequence_length=chaotic_sequence_length)
+    # for i in range(3):
+        # for j in range(3):
+            # if (i == 0 and j != 1) or (i == 1 and j != 0) or (i == 2 and j != 0):
+    best_initial_value, best_uaci = epo_optimize(img, population_size=10*(1), iterations=50*(1), chaotic_sequence_length=chaotic_sequence_length)
     print(f"Best initial value for chaotic map: {best_initial_value}, Best UACI: {best_uaci}")
 
     # Generate the chaotic key using the best initial value
